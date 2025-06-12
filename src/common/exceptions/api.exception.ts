@@ -5,7 +5,7 @@ export class ApiException extends HttpException {
     message: string,
     status: HttpStatus = HttpStatus.INTERNAL_SERVER_ERROR,
     public readonly code?: string,
-    public readonly details?: any
+    public readonly details?: Record<string, unknown>
   ) {
     super(
       {

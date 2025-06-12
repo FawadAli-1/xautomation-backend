@@ -5,7 +5,6 @@ export interface PostingTime {
 
 export interface GeneratePostDto {
   prompt: string;
-  includeSchedule?: boolean;
 }
 
 export interface ThreadedPost {
@@ -14,6 +13,4 @@ export interface ThreadedPost {
   threadParts?: string[];
 }
 
-export interface GeneratedPost extends ThreadedPost {
-  nextPostingTime?: PostingTime;
-} 
+export interface GeneratedPost extends ThreadedPost {} 

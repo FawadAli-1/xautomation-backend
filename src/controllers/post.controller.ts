@@ -1,8 +1,7 @@
-import { Controller, Post, Body, Get, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
 import { GroqService } from '../services/groq.service';
-import { SchedulerService } from '../services/scheduler.service';
 import { TwitterService } from '../services/twitter.service';
-import { GeneratePostDto, GeneratedPost, PostingTime } from '../types/post.types';
+import { GeneratePostDto, GeneratedPost } from '../types/post.types';
 
 interface PostToTwitterDto {
   content: string;
@@ -18,20 +17,12 @@ interface PostToTwitterDto {
 export class PostController {
   constructor(
     private readonly groqService: GroqService,
-    private readonly schedulerService: SchedulerService,
     private readonly twitterService: TwitterService,
   ) {}
 
   @Post('generate')
   async generatePost(@Body() dto: GeneratePostDto): Promise<GeneratedPost> {
-    const generatedPost = await this.groqService.generatePost(dto.prompt);
-    
-    return {
-      ...generatedPost,
-      ...(dto.includeSchedule && {
-        nextPostingTime: this.schedulerService.getNextPostingTime()
-      })
-    };
+    return await this.groqService.generatePost(dto.prompt);
   }
 
   @Post('publish')
@@ -113,10 +104,5 @@ export class PostController {
         error.message || 'Failed to publish tweet'
       );
     }
-  }
-
-  @Get('schedule')
-  getSchedule(): PostingTime[] {
-    return this.schedulerService.calculatePostingTimes();
   }
 } 

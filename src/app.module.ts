@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GroqService } from './services/groq.service';
-import { SchedulerService } from './services/scheduler.service';
 import { PostController } from './controllers/post.controller';
 import { TwitterService } from './services/twitter.service';
 
@@ -12,6 +11,6 @@ import { TwitterService } from './services/twitter.service';
     }),
   ],
   controllers: [PostController],
-  providers: [GroqService, SchedulerService, TwitterService],
+  providers: [GroqService, TwitterService],
 })
 export class AppModule {}
